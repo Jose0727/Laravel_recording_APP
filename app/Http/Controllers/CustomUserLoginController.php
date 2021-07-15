@@ -52,7 +52,7 @@ class CustomUserLoginController extends Controller
         $request->session()->regenerate();
 
         if($user->type == 'admin') {
-            return redirect()->to('/dashboard');
+            return redirect()->to('/dashboard');//one issue in admin permission
         }
         return redirect()->intended('/report');
     }
