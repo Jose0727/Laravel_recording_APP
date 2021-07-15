@@ -1,7 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
+use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\CustomUserLoginController;
+use App\Http\Controllers\AdminController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -16,16 +18,17 @@ use Illuminate\Support\Facades\Route;
 // Disable Registration System
 // Auth::routes(['register' => false]);
 
-
-Route::get('/', function () { return view('index'); });
-Route::get('/report', function () { return view('report'); });
-Route::get('/rec', function () { return view('rec'); });
-Route::get('/post', function () { return view('post'); });
-Route::get('/admin', function () { return view('admin'); });
-Route::get('/dashboard', function () { return view('dashboard'); });
-
-Auth::routes();
-
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-
-// Route::get('dashboard', 'App\Http\Controllers\UserController@dashboard')->middleware('auth');
+Route::get('/login', [CustomUserLoginController::class, 'create']);
+Route::post('/login', [CustomUserLoginController::class, 'store'])
+                        ->name('login');
+Route::get('/admin', [CustomUserLoginController::class, 'adminLogin']);
+Route::group(['middleware' => 'auth'], function () {
+    Route::get('/logout', [CustomUserLoginController::class, 'destroy']);
+    Route::get('/', function () { return view('report'); });
+    Route::get('/rec', function () { return view('rec'); });
+    Route::get('/post', function () { return view('post'); });
+    Route::get('/dashboard', function () { return view('dashboard'); });
+});
+Route::group(['middleware' => 'auth'], function () {
+    Route::get('/dashboard',[AdminController::class, 'dashboard']);
+});

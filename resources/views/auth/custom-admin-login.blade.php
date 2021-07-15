@@ -14,9 +14,16 @@
             <!-- Register Form-->
             <div class="register-form mt-4 px-4">
               <h6 class="mb-3 text-center">Dashboard Access</h6>
-              <form action="dashboard">
+              <form method="POST" action="{{ route('login') }}">
+                @csrf
                 <div class="form-group">
-                  <input class="form-control text-center" type="password" placeholder="enter password" />
+                  <input name="type" value="admin" type="hidden">
+                  <input class="form-control text-center" name="passcode" type="password" placeholder="enter password" />
+                  @error('passcode')
+                      <span class="text-danger" role="alert">
+                          <strong>{{ $message }}</strong>
+                      </span>
+                  @enderror
                 </div>
                 <button class="btn btn-primary w-100" type="submit">LOGIN</button>
               </form>
