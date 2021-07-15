@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\CustomUserLoginController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\UserReportController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -24,10 +25,17 @@ Route::post('/login', [CustomUserLoginController::class, 'store'])
 Route::get('/admin', [CustomUserLoginController::class, 'adminLogin']);
 Route::group(['middleware' => 'auth'], function () {
     Route::get('/logout', [CustomUserLoginController::class, 'destroy']);
-    Route::get('/', function () { return view('report'); });
-    Route::get('/rec', function () { return view('rec'); });
-    Route::get('/post', function () { return view('post'); });
+    
     Route::get('/dashboard', function () { return view('dashboard'); });
+});
+//user report
+Route::group(['middleware' => 'auth'], function () {
+    // Route::get('/', [UserReportController::class, 'reportSelection']);
+    Route::get('/', function () { return view('report.report'); });
+    Route::get('/rec', function () { return view('report.rec'); });
+    Route::get('/post', function () { return view('report.post'); });
+    Route::post('/audio-report', [UserReportController::class, 'audioReport']);
+    Route::post('/text-report', [UserReportController::class, 'textReport']);
 });
 Route::group(['middleware' => 'auth'], function () {
     Route::get('/dashboard',[AdminController::class, 'dashboard']);
