@@ -41,6 +41,7 @@
     <link rel="stylesheet" href="{{ asset('css/ion.rangeSlider.min.css') }}" />
     <link rel="stylesheet" href="{{ asset('css/dataTables.bootstrap4.min.css') }}" />
     <link rel="stylesheet" href="{{ asset('css/apexcharts.css') }}" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" />
     
     <!-- Core Stylesheet-->    
     <link href="{{ asset('css/style.css') }}" rel="stylesheet">
@@ -70,7 +71,9 @@
     <script src="{{ asset('js/jquery.dataTables.min.js') }}"></script>
     <script src="{{ asset('js/default/active.js') }}"></script>
     <script src="{{ asset('js/default/clipboard.js') }}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
     <!-- PWA-->
-    <script src="{{ asset('js/pwa.js') }}"></script>
+
+    @stack('after-scripts')
 </body>
 </html>
