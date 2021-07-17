@@ -1,7 +1,5 @@
 @if ($message = Session::get('success'))
-{{-- <div class="alert alert-success alert-dismissible fade show" role="alert">
-    <strong>{{ $message }}</strong>
-</div> --}}
+
 <div class="alert custom-alert-1 shadow-sm alert-success alert-dismissible fade show" role="alert">
     {{ $message }}
     <button class="btn btn-close position-relative p-1 ms-auto" type="button" data-bs-dismiss="alert"

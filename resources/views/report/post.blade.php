@@ -66,12 +66,9 @@
                 processData: false,
                 success: function(response) {
                     if (response == true) {
-                        window.location.href = '{{ url('/') }}';
-                        toastr.options.progressBar = true;
-                        toastr.success('Report submitted');
+                        window.location.href = '{{ url('/') }}'
                     } else {
-                        toastr.options.progressBar = true;
-                        toastr.warning('Failed to submit report');
+                        location.reload();
                     }
                 },
             });

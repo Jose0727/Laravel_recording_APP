@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="preloader d-flex align-items-center justify-content-center" id="preloader">
+  <div class="preloader d-flex align-items-center justify-content-center" id="preloader">
     <div class="spinner-grow text-primary" role="status">
       <div class="sr-only">Loading...</div>
     </div>
@@ -10,7 +10,13 @@
   <div class="internet-connection-status" id="internetStatus"></div>
   <div class="page-content-wrapper"></div>
   <div class="py-4"></div>
-  
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        @include('layouts.flash')
+      </div>
+    </div>
+  </div>
   <div class="container">
     <div class="row">
       <div class="col-12">

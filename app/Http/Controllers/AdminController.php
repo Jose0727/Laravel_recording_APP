@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\UserReport;
 use Illuminate\Http\Request;
 
 class AdminController extends Controller
@@ -11,6 +12,7 @@ class AdminController extends Controller
         if(auth()->user()->type != 'admin') {
             return back();
         }
-        return view('admin.dashboard');
+        $report = UserReport::with('user')->get();
+        return view('admin.dashboard', compact('report'));
     }
 }
