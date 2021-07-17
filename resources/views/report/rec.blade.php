@@ -29,7 +29,7 @@
     </div>
 @endsection
 @push('after-scripts')
-  <script src="{{ asset('js/mic-recorder-to-mp3.js') }}"></script>
+  <script src="{{ asset('js/mic-recorder-to-mp3/index.js') }}"></script>
     <script>
       $.ajaxSetup({
             headers: {
