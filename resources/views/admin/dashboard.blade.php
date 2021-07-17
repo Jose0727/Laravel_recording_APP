@@ -32,8 +32,7 @@
                                 <th scope="col">ID</th>
                                 <th scope="col">Date</th>
                                 <th scope="col">Type</th>
-                                <th scope="col"></th>
-                                <th scope="col"></th>
+                                <th scope="col">Action</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -43,19 +42,29 @@
                                     <td scope="row">{{ date('d-M-Y H:i:s', strtotime($item->created_at)) }}</td>
                                     <th scope="row">{{ $item->type }}</th>
                                     <td scope="row">
-                                      <a href="javascript:void(0)" class="btn m-1 btn-sm btn-dark"
-                                      onclick="downloadFile({{ $item->id }})">download</a></td>
-                                      <form style="display: none" method="get" id="downloadFile-{{ $item->id }}"
-                                        action="{{ route('report.download', $item->id) }}">
-                                      </form>
-                                    <td>
-                                        <a href="javascript:void(0)" class="btn m-1 btn-sm btn-danger"
-                                            onclick="deleteFile({{ $item->id }})">delete</a>
-                                        <form style="display: none" method="POST" id="deleteFile-{{ $item->id }}"
-                                            action="{{ route('report.destroy', $item->id) }}">
-                                            @csrf
-                                            @method('DELETE')
-                                        </form>
+                                        <div class="btn-toolbar" role="toolbar">
+                                            <div class="btn-group" role="group">
+                                                <a href="javascript:void(0)" type="button"
+                                                    class="btn btn-sm btn-dark btn-icon"
+                                                    onclick="downloadFile({{ $item->id }})"><i
+                                                        class="fa fa-download"></i></a>
+                                                <form style="display: none" method="get"
+                                                    id="downloadFile-{{ $item->id }}"
+                                                    action="{{ route('report.download', $item->id) }}">
+                                                </form>
+                                                <form style="display: none" method="POST"
+                                                    id="deleteFile-{{ $item->id }}"
+                                                    action="{{ route('report.destroy', $item->id) }}">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                </form>
+                                                <a href="javascript:void(0)" type="button"
+                                                    class="btn btn-sm btn-danger btn-icon"
+                                                    onclick="deleteFile({{ $item->id }})"><i
+                                                        class="fa fa-trash"></i></a>
+                                            </div>
+                                        </div>
+
                                     </td>
                                 </tr>
                             @endforeach
@@ -67,9 +76,10 @@
     </div>
 @endsection
 @push('after-scripts')
-<script src="{{ asset('js/sweet-alert/sweetalert2.all.min.js') }}"></script>
+    <script src="{{ asset('js/sweet-alert/sweetalert2.all.min.js') }}"></script>
     <script>
         $('.table-reports').DataTable();
+
         function deleteFile(id) {
             const swalWithBootstrapButtons = Swal.mixin({
                 customClass: {
@@ -91,6 +101,7 @@
                 }
             })
         }
+
         function downloadFile(id) {
             event.preventDefault();
             document.getElementById('downloadFile-' + id).submit();
