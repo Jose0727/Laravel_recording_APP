@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Illuminate\Http\Response;
-
+use Illuminate\Support\Facades\Session;
 class UserReportController extends Controller
 {
 
@@ -52,12 +52,17 @@ class UserReportController extends Controller
                 $report->extension = $extension;
                 $report->type = 'audio';
                 $report->save();
+            } else {
+                Session::flash('error', 'File not found!');
+                return response()->json(false);
             }
         } catch (\Exception $e) {
             DB::rollBack();
+            Session::flash('error', 'Failed to submit report!');
             return response()->json(false);
         }
         DB::commit();
+        Session::flash('success', 'Report has been submitted successfully!');
         return response()->json(true);
     }
     /**
@@ -80,16 +85,37 @@ class UserReportController extends Controller
                 $report->file_url = Storage::disk('public')->url($fileDir);
                 $report->file_original_name = $filename;
                 $report->extension = 'txt';
-                $report->type = 'audio';
+                $report->type = 'text';
                 $report->save();
             } else {
+                Session::flash('error', 'File not found!');
                 return response()->json(false);
             }
         } catch (\Exception $e) {
             DB::rollBack();
+            Session::flash('error', 'Failed to submit report!');
             return response()->json(false);
         }
-        DB::commit();
+        DB::commit();                
+        Session::flash('success', 'Report has been submitted successfully!');
         return response()->json(true);
+    }
+
+    public function destroy(UserReport $report)
+    {
+        try {
+            if($report->delete()){
+                Storage::disk('public')->delete($report->file_path);
+            } else {
+                return back()->with('error','Error!! Operation Failed.');
+            }
+            return back()->with('success','Success!! File deleted.');
+        } catch (\Exception $e) {
+            return back()->with('error','Error!! Operation Failed.');
+        }
+    }
+    public function download(UserReport $report)
+    {
+        return Storage::disk('public')->download($report->file_path);
     }
 }

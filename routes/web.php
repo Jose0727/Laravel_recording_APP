@@ -21,22 +21,31 @@ use App\Http\Controllers\UserReportController;
 
 Route::get('/login', [CustomUserLoginController::class, 'create']);
 Route::post('/login', [CustomUserLoginController::class, 'store'])
-                        ->name('login');
+    ->name('login');
 Route::get('/admin', [CustomUserLoginController::class, 'adminLogin']);
 Route::group(['middleware' => 'auth'], function () {
-    Route::get('/logout', [CustomUserLoginController::class, 'destroy']);
-    
-    Route::get('/dashboard', function () { return view('dashboard'); });
+    // Route::get('/logout', [CustomUserLoginController::class, 'destroy']);
+    Route::get('/dashboard', function () {
+        return view('dashboard');
+    });
 });
 //user report
 Route::group(['middleware' => 'auth'], function () {
-    // Route::get('/', [UserReportController::class, 'reportSelection']);
-    Route::get('/', function () { return view('report.report'); });
-    Route::get('/rec', function () { return view('report.rec'); });
-    Route::get('/post', function () { return view('report.post'); });
+    Route::get('/', function () {
+        return view('report.report');
+    });
+    Route::get('/rec', function () {
+        return view('report.rec');
+    });
+    Route::get('/post', function () {
+        return view('report.post');
+    });
     Route::post('/audio-report', [UserReportController::class, 'audioReport']);
     Route::post('/text-report', [UserReportController::class, 'textReport']);
 });
+//admin
 Route::group(['middleware' => 'auth'], function () {
-    Route::get('/dashboard',[AdminController::class, 'dashboard']);
+    Route::get('/dashboard', [AdminController::class, 'dashboard']);
+    Route::delete('/report/{report}', [UserReportController::class, 'destroy'])->name('report.destroy');
+    Route::get('/report/download/{report}', [UserReportController::class, 'download'])->name('report.download');
 });
