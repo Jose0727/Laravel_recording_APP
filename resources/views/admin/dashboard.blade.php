@@ -32,7 +32,7 @@
                                 <th scope="col">ID</th>
                                 <th scope="col">Date</th>
                                 <th scope="col">Type</th>
-                                <th scope="col">Action</th>
+                                <th scope="col"  class="text-center">Action</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -41,30 +41,39 @@
                                     <th scope="row">{{ $item->user->passcode }}</th>
                                     <td scope="row">{{ date('d-M-Y H:i:s', strtotime($item->created_at)) }}</td>
                                     <th scope="row">{{ $item->type }}</th>
-                                    <td scope="row">
-                                        <div class="btn-toolbar" role="toolbar">
+                                    <td scope="row" class="text-center">
+                                        <div class="col-md-12 text-center" role="toolbar">
+                                            @if((new \Jenssegers\Agent\Agent())->isDesktop())
+                                                <div class="btn-group" role="group">
+                                                    <a href="javascript:void(0)" type="button"
+                                                        class="btn btn-sm btn-dark"
+                                                        onclick="downloadFile({{ $item->id }})">download</a>
+                                                    <a href="javascript:void(0)" type="button"
+                                                        class="btn btn-sm btn-danger"
+                                                        onclick="deleteFile({{ $item->id }})">delete</a>
+                                                </div>
+                                            @endif
+                                            @if((new \Jenssegers\Agent\Agent())->isMobile())
                                             <div class="btn-group" role="group">
                                                 <a href="javascript:void(0)" type="button"
                                                     class="btn btn-sm btn-dark btn-icon"
                                                     onclick="downloadFile({{ $item->id }})"><i
                                                         class="fa fa-download"></i></a>
-                                                <form style="display: none" method="get"
-                                                    id="downloadFile-{{ $item->id }}"
-                                                    action="{{ route('report.download', $item->id) }}">
-                                                </form>
-                                                <form style="display: none" method="POST"
-                                                    id="deleteFile-{{ $item->id }}"
-                                                    action="{{ route('report.destroy', $item->id) }}">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                </form>
                                                 <a href="javascript:void(0)" type="button"
                                                     class="btn btn-sm btn-danger btn-icon"
                                                     onclick="deleteFile({{ $item->id }})"><i
                                                         class="fa fa-trash"></i></a>
                                             </div>
+                                            @endif
+                                            <form style="display: none" method="get" id="downloadFile-{{ $item->id }}"
+                                                action="{{ route('report.download', $item->id) }}">
+                                            </form>
+                                            <form style="display: none" method="POST" id="deleteFile-{{ $item->id }}"
+                                                action="{{ route('report.destroy', $item->id) }}">
+                                                @csrf
+                                                @method('DELETE')
+                                            </form>
                                         </div>
-
                                     </td>
                                 </tr>
                             @endforeach
@@ -78,7 +87,12 @@
 @push('after-scripts')
     <script src="{{ asset('js/sweet-alert/sweetalert2.all.min.js') }}"></script>
     <script>
-        $('.table-reports').DataTable();
+        $('.table-reports').DataTable({
+            "paging": false,
+            "ordering": false,
+            "info": false,
+            "searching": false
+        });
 
         function deleteFile(id) {
             const swalWithBootstrapButtons = Swal.mixin({

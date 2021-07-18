@@ -54,7 +54,6 @@
         $(document).off('click', '.submit-text-report').on('click', '.submit-text-report', function(e) {
             e.preventDefault();
             var form = $(this).closest("form");
-            // var form = $("#textReportForm"); 
             var formData = new FormData(form[0]);
             $.ajax({
                 url: '{{ url('/text-report') }}',
