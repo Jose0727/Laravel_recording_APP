@@ -44,11 +44,12 @@
     
     <!-- Core Stylesheet-->    
     <link href="{{ asset('css/style.css') }}" rel="stylesheet">
-        <style>
-            .custom-alert-1{
-                background-color: white !important;
-            }
-        </style>
+    <style>
+        .custom-alert-1{
+            background-color: white !important;
+        }
+    </style>
+    @stack('after-style')
     <!-- Web App Manifest-->
     <link rel="manifest" href="{{ asset('js/manifest.json') }}" />
 </head>

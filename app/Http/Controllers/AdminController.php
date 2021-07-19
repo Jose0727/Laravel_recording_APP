@@ -12,7 +12,7 @@ class AdminController extends Controller
         if(auth()->user()->type != 'admin') {
             return back();
         }
-        $report = UserReport::with('user')->get();
+        $report = UserReport::with('user')->latest()->get();
         return view('admin.dashboard', compact('report'));
     }
 }
