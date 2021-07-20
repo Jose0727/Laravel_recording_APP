@@ -1,5 +1,4 @@
 @extends('layouts.app')
-
 @section('content')
     <div class="preloader d-flex align-items-center justify-content-center" id="preloader">
         <div class="spinner-grow text-primary" role="status">
@@ -18,12 +17,13 @@
                 submissions are confidential and you can submit as many times as
                 needed.
             </p>
-            <p>Click or tap the microphone icon below to record a message.</p>
-
-            <div class="container video-call-screen">
-                <div class="call-btn-group">
-                    <a class="btn btn-lg btn-danger btn-success p-4 btn-call-cancel" href="javascript:void(0);"><i
-                            class="bi bi-mic"></i></a>
+            <p>Click or tap the microphone icon below to record a message, and click or tap again to send.</p>
+            <div class="container d-flex justify-content-center" style="padding-top:50px">
+                <div class="video-call-screen" style="height: auto; width:auto">
+                    <div class="call-btn-group d-flex justify-content-center" style="position:inherit">
+                        <a class="btn btn-lg btn-danger btn-success p-4 btn-call-cancel" href="javascript:void(0);"><i
+                                class="bi bi-mic"></i></a>
+                    </div>
                 </div>
             </div>
         </div>
